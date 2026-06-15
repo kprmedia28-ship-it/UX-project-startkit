@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX project startkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F5F7;
+    --surface: #FFFFFF;
+    --ink: #14161A;
+    --ink-soft: #6E7480;
+    --ink-faint: #A0A4AD;
+    --line: #E4E6EB;
+    --line-strong: #D3D6DD;
+    --accent: #4F46E5;
+    --accent-soft: #EEF0FE;
+    --accent-ring: rgba(79, 70, 229, 0.18);
+    --done: #16A34A;
+    --done-soft: #ECFDF3;
+    --done-line: #BBF0CC;
+    --radius: 14px;
+    --sans: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem;
+  }
+
+  /* Top bar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(244, 245, 247, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 1rem 0;
+    margin: 0 -1.5rem 0;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .topbar-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .topbar-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .topbar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .topbar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.35s ease;
+  }
+
+  .topbar-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    min-width: 4.5em;
+    text-align: right;
+  }
+
+  /* Header */
+  header.hero {
+    padding: 3rem 0 2rem;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+  }
+
+  .eyebrow::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 4.5vw, 2.5rem);
+    margin: 0 0 0.6rem;
+    letter-spacing: -0.02em;
+  }
+
+  .tagline {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    max-width: 38em;
+    margin: 0;
+  }
+
+  /* Step list */
+  .spine {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .step-card.done {
+    border-color: var(--done-line);
+  }
+
+  .step-card:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-ring);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .step-badge {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .step-badge.done {
+    background: var(--done-soft);
+    color: var(--done);
+  }
+
+  .step-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .step-heading {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .step-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 2px;
+    letter-spacing: -0.005em;
+  }
+
+  .step-sub {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* Fields */
+  .field {
+    margin-bottom: 1rem;
+  }
+
+  .field:last-child {
+    margin-bottom: 0;
+  }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--ink);
+  }
+
+  .field textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 0.65rem 0.8rem;
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--bg);
+    resize: none;
+    overflow: hidden;
+    min-height: 2.6em;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+  }
+
+  .field textarea::placeholder {
+    color: var(--ink-faint);
+  }
+
+  /* Actions */
+  .actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  button {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 0.65rem 1.1rem;
+    border-radius: 9px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s, transform 0.05s, color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .btn-primary:hover {
+    background: #4338CA;
+    border-color: #4338CA;
+  }
+
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--ink-soft);
+    border-color: var(--line-strong);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-faint);
+    border-color: transparent;
+  }
+
+  .btn-ghost:hover {
+    color: var(--ink-soft);
+    background: var(--line);
+  }
+
+  .saved-note {
+    font-size: 12.5px;
+    color: var(--done);
+    font-weight: 600;
+    min-height: 1.2em;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .saved-note.show {
+    opacity: 1;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--ink-faint);
+    text-align: center;
+    font-weight: 500;
+  }
+
+  @media (max-width: 540px) {
+    .page { padding: 0 1rem 4rem; }
+    .topbar { margin: 0 -1rem 0; padding-left: 1rem; padding-right: 1rem; }
+    header.hero { padding: 2.25rem 0 1.5rem; }
+    .step-card { padding: 1.1rem 1.25rem; }
+    .step-head { gap: 10px; }
+    .step-badge { width: 28px; height: 28px; border-radius: 8px; font-size: 13px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 16mm 14mm;
+    }
+
+    body {
+      background: #fff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: none;
+      padding: 0;
+    }
+
+    .topbar,
+    .actions,
+    .saved-note {
+      display: none !important;
+    }
+
+    header.hero {
+      padding: 0 0 1rem;
+    }
+
+    .eyebrow {
+      color: #1a1a1a;
+    }
+
+    .eyebrow::before {
+      background: #1a1a1a;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    .tagline {
+      color: #4a4a4a;
+      font-size: 12.5px;
+    }
+
+    .spine {
+      gap: 0.6rem;
+    }
+
+    .step-card {
+      border: 1px solid #d4d4d4;
+      border-radius: 4px;
+      padding: 0.85rem 1.05rem;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .step-head {
+      margin-bottom: 0.6rem;
+    }
+
+    .step-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      font-size: 11px;
+      background: #eee !important;
+      color: #1a1a1a !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .step-title {
+      font-size: 14px;
+    }
+
+    .step-sub {
+      font-size: 10.5px;
+      color: #666;
+    }
+
+    .field {
+      margin-bottom: 0.5rem;
+    }
+
+    .field label {
+      font-size: 10.5px;
+      color: #1a1a1a;
+    }
+
+    .field textarea {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0;
+      background: transparent;
+      padding: 0.1rem 0;
+      font-size: 11.5px;
+      min-height: 1.3em;
+      color: #1a1a1a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .field textarea::placeholder {
+      color: #aaa;
+    }
+
+    footer {
+      margin-top: 1.25rem;
+      padding-top: 0.7rem;
+      font-size: 10.5px;
+      color: #888;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-label">UX startkit</span>
+    <div class="topbar-track">
+      <div class="topbar-fill" id="progressFill"></div>
+    </div>
+    <span class="topbar-count" id="progressCount">0 / 7</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <header class="hero">
+    <div class="eyebrow">Voor je Figma opent</div>
+    <h1>Helderheid voor pixels</h1>
+    <p class="tagline">Goede UX begint niet met kleuren, layouts of wireframes &mdash; maar met helderheid. Doorloop deze 7 stappen om het probleem, de gebruiker en het doel scherp te krijgen voordat je gaat ontwerpen.</p>
+  </header>
+
+  <div class="spine" id="spine"></div>
+
+  <div class="actions">
+    <button class="btn-primary" id="exportBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Exporteer als tekst
+    </button>
+    <button class="btn-secondary" id="printBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Afdrukken als PDF
+    </button>
+    <button class="btn-ghost" id="resetBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Alles wissen
+    </button>
+    <span class="saved-note" id="savedNote">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Opgeslagen
+    </span>
+  </div>
+
+  <footer>
+    Figma is niet het startpunt. Helderheid is dat.
+  </footer>
+
+</div>
+
+<script>
+  const STEPS = [
+    {
+      title: "Begrijp het probleem",
+      sub: "Als het probleem niet helder is, voelt elk designbesluit als willekeurig.",
+      fields: [
+        { key: "problem_what", label: "Welk probleem lossen we op?", placeholder: "Beschrijf het probleem in &eacute;&eacute;n &agrave; twee zinnen" },
+        { key: "problem_who", label: "Wie heeft te maken met dit probleem?", placeholder: "De groep mensen die dit ervaart" },
+        { key: "problem_why", label: "Waarom is dit nu belangrijk?", placeholder: "Wat maakt dit urgent op dit moment?" },
+        { key: "problem_consequence", label: "Wat gebeurt er als we dit niet oplossen?", placeholder: "Gevolgen voor gebruiker en business" }
+      ]
+    },
+    {
+      title: "Definieer de gebruiker",
+      sub: "Design niet voor iedereen. UX wordt makkelijker als de gebruiker specifiek is.",
+      fields: [
+        { key: "user_primary", label: "Wie is de primaire gebruiker?", placeholder: "Wees zo specifiek mogelijk" },
+        { key: "user_goal", label: "Wat probeert deze gebruiker te bereiken?", placeholder: "Hun doel, niet jouw doel" },
+        { key: "user_frustration", label: "Wat frustreert hen vandaag?", placeholder: "Pijnpunten in de huidige situatie" },
+        { key: "user_current", label: "Wat gebruiken ze vandaag al?", placeholder: "Huidige tools, workarounds, gewoontes" }
+      ]
+    },
+    {
+      title: "Business goal",
+      sub: "Elk UX project heeft een zakelijke reden. Goede UX verbindt gebruikersbehoeften met business-uitkomsten.",
+      fields: [
+        { key: "business_goal", label: "Wat is het zakelijke doel?", placeholder: "Bijv. meer sign-ups, betere activatie, minder drop-off, hogere conversie, minder support" },
+        { key: "business_metric", label: "Hoe meten we succes?", placeholder: "Welke meetbare uitkomst telt?" }
+      ]
+    },
+    {
+      title: "Map de huidige flow",
+      sub: "Je kunt niet verbeteren wat je niet begrijpt.",
+      fields: [
+        { key: "flow_entry", label: "Entry point", placeholder: "Waar komt de gebruiker binnen?" },
+        { key: "flow_actions", label: "Belangrijkste gebruikersacties", placeholder: "Wat doet de gebruiker stap voor stap?" },
+        { key: "flow_decisions", label: "Beslismomenten", placeholder: "Waar moet de gebruiker kiezen?" },
+        { key: "flow_friction", label: "Frictiepunten", placeholder: "Waar haakt het mis of voelt het zwaar?" },
+        { key: "flow_dropoff", label: "Drop-off momenten", placeholder: "Waar verliezen we gebruikers?" },
+        { key: "flow_success", label: "Succespunt", placeholder: "Wanneer is de flow geslaagd?" }
+      ]
+    },
+    {
+      title: "List constraints",
+      sub: "Echte UX is niet perfect design. Het is slim design binnen beperkingen.",
+      fields: [
+        { key: "constraints_timeline", label: "Timeline", placeholder: "Hoeveel tijd is er?" },
+        { key: "constraints_tech", label: "Tech-limieten", placeholder: "Wat kan technisch wel/niet?" },
+        { key: "constraints_business", label: "Businessregels", placeholder: "Welke regels gelden er?" },
+        { key: "constraints_platform", label: "Device / platform", placeholder: "Waar moet het op werken?" },
+        { key: "constraints_content", label: "Content beschikbaarheid", placeholder: "Is alle content er al?" },
+        { key: "constraints_stakeholders", label: "Stakeholder verwachtingen", placeholder: "Wat wordt er verwacht of aangenomen?" }
+      ]
+    },
+    {
+      title: "Verken oplossingen",
+      sub: "Ga niet eerst voor mooi. Ga eerst voor structuur.",
+      fields: [
+        { key: "solutions_flows", label: "Ruwe flows", placeholder: "Globale stappen van begin tot eind" },
+        { key: "solutions_wireframes", label: "Low-fidelity wireframes", placeholder: "Korte beschrijving of verwijzing" },
+        { key: "solutions_options", label: "2-3 layout opties", placeholder: "Welke richtingen overweeg je?" },
+        { key: "solutions_edgecases", label: "Edge cases", placeholder: "Uitzonderingen die je moet opvangen" },
+        { key: "solutions_states", label: "Empty / error / loading states", placeholder: "Hoe ziet elke staat eruit?" }
+      ]
+    },
+    {
+      title: "Valideer voor finale UI",
+      sub: "Validatie voorkomt dat je de verkeerde oplossing gaat aankleden.",
+      fields: [
+        { key: "val_solves", label: "Lost dit het probleem op?", placeholder: "Toets terug naar stap 1" },
+        { key: "val_understand", label: "Kunnen gebruikers het snel begrijpen?", placeholder: "Is het direct duidelijk?" },
+        { key: "val_action", label: "Is de hoofdactie duidelijk?", placeholder: "Wat moet de gebruiker als eerste doen?" },
+        { key: "val_edgecases", label: "Zijn edge cases gedekt?", placeholder: "Check tegen stap 6" },
+        { key: "val_business", label: "Ondersteunt dit het business goal?", placeholder: "Toets terug naar stap 3" }
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = "ux-startkit-data-v1";
+  let data = {};
+
+  const CHECK_ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function loadData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      data = raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      data = {};
+    }
+  }
+
+  let saveTimeout;
+  function saveData() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      const note = document.getElementById("savedNote");
+      note.classList.add("show");
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => note.classList.remove("show"), 1200);
+    } catch (e) {}
+  }
+
+  function stepComplete(step) {
+    return step.fields.every(f => (data[f.key] || "").trim().length > 0);
+  }
+
+  function updateProgress() {
+    const done = STEPS.filter(stepComplete).length;
+    const pct = Math.round((done / STEPS.length) * 100);
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("progressCount").textContent = done + " / " + STEPS.length;
+  }
+
+  function autoResize(textarea) {
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+  }
+
+  function render() {
+    const spine = document.getElementById("spine");
+    spine.innerHTML = "";
+
+    STEPS.forEach((step, i) => {
+      const card = document.createElement("div");
+      card.className = "step-card";
+
+      const head = document.createElement("div");
+      head.className = "step-head";
+
+      const badge = document.createElement("div");
+      badge.className = "step-badge";
+      badge.textContent = (i + 1);
+
+      const heading = document.createElement("div");
+      heading.className = "step-heading";
+
+      const title = document.createElement("h2");
+      title.className = "step-title";
+      title.innerHTML = "Stap " + (i + 1) + " &mdash; " + step.title;
+
+      const sub = document.createElement("p");
+      sub.className = "step-sub";
+      sub.textContent = step.sub;
+
+      heading.appendChild(title);
+      heading.appendChild(sub);
+      head.appendChild(badge);
+      head.appendChild(heading);
+      card.appendChild(head);
+
+      step.fields.forEach(f => {
+        const field = document.createElement("div");
+        field.className = "field";
+
+        const label = document.createElement("label");
+        label.setAttribute("for", f.key);
+        label.textContent = f.label;
+
+        const textarea = document.createElement("textarea");
+        textarea.id = f.key;
+        textarea.rows = 2;
+        textarea.placeholder = f.placeholder;
+        textarea.value = data[f.key] || "";
+        autoResize(textarea);
+        textarea.addEventListener("input", (e) => {
+          data[f.key] = e.target.value;
+          saveData();
+          autoResize(textarea);
+          updateStepState(step, card, badge);
+          updateProgress();
+        });
+
+        field.appendChild(label);
+        field.appendChild(textarea);
+        card.appendChild(field);
+      });
+
+      spine.appendChild(card);
+      updateStepState(step, card, badge);
+    });
+
+    updateProgress();
+  }
+
+  function updateStepState(step, card, badge) {
+    if (stepComplete(step)) {
+      card.classList.add("done");
+      badge.classList.add("done");
+      badge.innerHTML = CHECK_ICON;
+    } else {
+      card.classList.remove("done");
+      badge.classList.remove("done");
+      const idx = STEPS.indexOf(step);
+      badge.textContent = (idx + 1);
+    }
+  }
+
+  document.getElementById("exportBtn").addEventListener("click", () => {
+    let text = "UX PROJECT STARTKIT\n====================\n\n";
+    STEPS.forEach((step, i) => {
+      text += "STAP " + (i + 1) + ": " + step.title.toUpperCase() + "\n";
+      step.fields.forEach(f => {
+        text += "- " + f.label + ": " + (data[f.key] || "(niet ingevuld)") + "\n";
+      });
+      text += "\n";
+    });
+    text += "STAP 8: FINAL UI\nPas nu open je Figma.\n";
+
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ux-startkit.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("printBtn").addEventListener("click", () => {
+    window.print();
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    if (confirm("Alle ingevulde antwoorden wissen?")) {
+      data = {};
+      localStorage.removeItem(STORAGE_KEY);
+      render();
+    }
+  });
+
+  loadData();
+  render();
+</script>
+</body>
+</html>
